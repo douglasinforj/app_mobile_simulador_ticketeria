@@ -7,10 +7,16 @@ def comprar_ingresso(nome, cpf, evento_id):
         response = requests.post(f"{API_URL}ingressos/", json={"nome": nome, "cpf": cpf, "evento_id": evento_id})
         if response.status_code == 201:
             ingresso = response.json()
-            return {"status": True, "mensagem": f"Ingresso Comprado! Código:{ingresso['codigo_ingresso']}"}
+            return {
+                "status": True,
+                "mensagem": f"Ingresso Comprado! Código: {ingresso['codigo_ingresso']}",
+                "codigo_ingresso": ingresso['codigo_ingresso']  # Retorna o código do ingresso
+            }
         return {"status": False, "mensagem": "Erro ao comprar ingresso!"}
     except Exception as e:
         return {"status": False, "mensagem": str(e)}
+    
+    
 
 def validar_ingresso(codigo):
     try:
