@@ -42,3 +42,20 @@ def buscar_nome_por_cpf(cpf):
         return None
     except Exception as e:
         return None
+    
+
+#função cadastro de cliente:
+
+def cadastrar_cliente(nome, cpf, email, telefone):
+    try:
+        response = requests.post(f"{API_URL}clientes/", json={
+            "nome": nome,
+            "cpf": cpf,
+            "email": email,
+            "telefone": telefone
+        })
+        if response.status_code == 201:
+            return {"status": True, "mensagem": "Cliente cadastrado com sucesso!"}
+        return {"status": False, "mensagem": "Erro ao cadastrar cliente!"}
+    except Exception as e:
+        return {"status": False, "mensagem": str(e)}
