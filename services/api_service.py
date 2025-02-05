@@ -16,16 +16,25 @@ def comprar_ingresso(nome, cpf, evento_id):
     except Exception as e:
         return {"status": False, "mensagem": str(e)}
     
-    
+
 
 def validar_ingresso(codigo):
     try:
-        response = requests.get(f"{API_URL}validar-ingresso/{codigo}/")
+        # Fazendo uma requisição GET para validar o ingresso
+        response = requests.get(f"{API_URL}ingressos/vendidos/{codigo}/")
+        
         if response.status_code == 200:
-            return {"status": True, "mensagem": "Ingresso válido!"}
+            data = response.json()
+            return {
+                "status": True,
+                "mensagem": f"Ingresso válido! Nome: {data['cliente_nome']} - CPF: {data['cliente_cpf']}"
+            }
         return {"status": False, "mensagem": "Ingresso inválido!"}
     except Exception as e:
-        return {"status": False, "mensagem": str(e)}
+        return {"status": False, "mensagem": f"Erro: {str(e)}"}
+
+
+
 
 # Função para buscar eventos da API
 def buscar_eventos():
