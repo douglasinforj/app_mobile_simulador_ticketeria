@@ -30,3 +30,15 @@ def buscar_eventos():
         return []
     except Exception as e:
         return {"status": False, "mensagem": str(e)}
+    
+
+# Busca por cpf
+def buscar_nome_por_cpf(cpf):
+    try:
+        response = requests.get(f"{API_URL}clientes/{cpf}/")
+        if response.status_code == 200:
+            cliente = response.json()
+            return cliente["nome"]
+        return None
+    except Exception as e:
+        return None
