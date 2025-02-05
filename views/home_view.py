@@ -7,6 +7,7 @@ def home_view(page):
         controls=[
             #navbar(page),  # Adicionando a Navbar
             ft.Text("Bem-vindo à Ticket App 🎟️", size=24, weight=ft.FontWeight.BOLD),
+            ft.ElevatedButton("Cadastrar", on_click=lambda _: page.go("/cadastro")),
             ft.ElevatedButton("Comprar Ingresso", on_click=lambda _: page.go("/comprar")),
             ft.ElevatedButton("Validar Ingresso", on_click=lambda _: page.go("/validar")),
         ],
