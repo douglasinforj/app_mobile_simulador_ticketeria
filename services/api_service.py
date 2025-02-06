@@ -21,15 +21,19 @@ def comprar_ingresso(nome, cpf, evento_id):
 def validar_ingresso(codigo):
     try:
         # Fazendo uma requisição GET para validar o ingresso
-        response = requests.get(f"{API_URL}ingressos/vendidos/{codigo}/")
-        
+        response = requests.get(f"{API_URL}ingressos/validar_ingresso/?codigo_ingresso={codigo}")
+        print("Resposta da API:", response.text)  # Debugging da resposta
+
         if response.status_code == 200:
             data = response.json()
             return {
                 "status": True,
-                "mensagem": f"Ingresso válido! Nome: {data['cliente_nome']} - CPF: {data['cliente_cpf']}"
+                "mensagem": f"Ingresso válido! Nome: {data.get('cliente_nome', 'Desconhecido')} - CPF: {data.get('cliente_cpf', 'Desconhecido')}"
             }
-        return {"status": False, "mensagem": "Ingresso inválido!"}
+        elif response.status_code == 404:
+            return {"status": False, "mensagem": "Ingresso não encontrado!"}
+        else:
+            return {"status": False, "mensagem": "Erro desconhecido ao validar o ingresso."}
     except Exception as e:
         return {"status": False, "mensagem": f"Erro: {str(e)}"}
 
